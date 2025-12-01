@@ -8,11 +8,11 @@
 </head>
 <body>
     <h1 id="title">RoamReel</h1>
-    <?php if(isset($message)): ?>
-        <p class="message">
-            <?= $message; ?>
-        </p>
-    <?php endif; ?>
+        <?php if(isset($message)): ?>
+            <p class="message">
+                <?= $message; ?>
+            </p>
+        <?php endif; ?>
     <form action="\register" method="POST">
         <label for="email">Email</label>
         <input name=email type ='email' placeholder="E-mail">

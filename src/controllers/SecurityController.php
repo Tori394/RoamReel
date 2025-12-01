@@ -1,6 +1,7 @@
 <?php 
 
 require_once 'AppController.php';
+require_once __DIR__ . '/../repository/UserRepository.php';
 
 class SecurityController extends AppController {
 
@@ -13,27 +14,14 @@ class SecurityController extends AppController {
         return self::$instance;
     }
 
-     // ======= LOKALNA "BAZA" UŻYTKOWNIKÓW =======
-    private static array $users = [
-        [
-            'email' => 'anna@example.com',
-            'password' => '$2y$10$wz2g9JrHYcF8bLGBbDkEXuJQAnl4uO9RV6cWJKcf.6uAEkhFZpU0i', // test123
-            'username' => 'Anna'
-        ],
-        [
-            'email' => 'bartek@example.com',
-            'password' => '$2y$10$fK9rLobZK2C6rJq6B/9I6u6Udaez9CaRu7eC/0zT3pGq5piVDsElW', // haslo456
-            'username' => 'Bartek'
-        ],
-        [
-            'email' => 'celina@example.com',
-            'password' => '$2y$10$Cq1J6YMGzRKR6XzTb3fDF.6sC6CShm8kFgEv7jJdtyWkhC1GuazJa', // qwerty
-            'username' => 'Celina'
-        ],
-    ];
+    private $userRepository;
+
+    public function __construct() {
+        $this->userRepository = new UserRepository();
+    }
 
 
-    //dekorator, ktore opcje sa dostepne dla tego widoku
+    //TODO(?) dekorator, ktore opcje sa dostepne dla tego widoku
 
     public function login() {
         if (!$this->isPost()) { //early return
@@ -47,15 +35,9 @@ class SecurityController extends AppController {
             return $this->render('login', ['message' => 'Fill all fields']);
         }
 
-        $userRow = null;
-        foreach (self::$users as $user) {
-            if ($user['email'] === $email) {
-                $userRow = $user;
-                break;
-            }
-        }
+        $userRow = $this->userRepository->getUserByEmail($email);
 
-        if ($userRow === null) {
+        if (!$userRow) {
             return $this->render('login', ['message' => 'User not found']);
         }
 
@@ -88,22 +70,22 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Passwords do not match']);
         }
 
-        foreach (self::$users as $u) {
-            if (strcasecmp($u['email'], $email) === 0) {
-                return $this->render('register', ['messages' => 'Email already in use by other user']);
-            }
+        $userRow = $this->userRepository->getUserByEmail($email);
+        if ($userRow !== null) {
+            return $this->render('register', ['message' => 'User with this email already exists']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        self::$users[] = [
-            'email' => $email,
-            'password' => $hashedPassword,
-            'username' => $username
-        ];
+        $this->userRepository->createUser(
+            $username,
+            $email,
+            $hashedPassword
+        );
 
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/login");
+        return $this->render('login', ['message' => 'Registration successful! You can log in now.']);
     }
+
+    
 }
 ?>

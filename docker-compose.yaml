@@ -20,6 +20,8 @@ services:
       - "5433:5432"
     networks:
       - pg-network
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
   
   php:
     build:
