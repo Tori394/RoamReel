@@ -13,3 +13,9 @@ VALUES (
     '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq',
     TRUE
 );
+
+CREATE TABLE reels (
+    id SERIAL PRIMARY KEY,
+    video_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

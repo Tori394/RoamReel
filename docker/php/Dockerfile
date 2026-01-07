@@ -5,7 +5,12 @@ ENV RUN_DEPS \
     libzip \
     libpng \
     libjpeg-turbo \
-    postgresql-libs
+    postgresql-libs \
+    python3 \
+    py3-pip \
+    ffmpeg \
+    imagemagick \
+    ghostscript
 
 ENV BUILD_DEPS \
     zlib-dev \
@@ -13,6 +18,7 @@ ENV BUILD_DEPS \
     libpng-dev \
     libjpeg-turbo-dev \
     postgresql-dev
+
 
 ENV PHP_EXTENSIONS \
     opcache \
@@ -28,6 +34,8 @@ RUN apk add --no-cache --virtual .build-deps $BUILD_DEPS \
     && apk del .build-deps
 
 RUN apk add --no-cache --virtual .run-deps $RUN_DEPS
+
+RUN pip install --no-cache-dir --break-system-packages moviepy==1.0.3
 
 RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 

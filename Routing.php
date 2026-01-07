@@ -30,14 +30,10 @@ class Routing {
             'controller' => 'ProfileController',
             'action' => 'index'
         ],
-        'test' => [
-            'controller' => 'DashboardController',
-            'action' => 'index'
-        ],
-        'test-search' => [
-            'controller' => 'DashboardController',
-            'action' => 'search'
-        ]
+        'generateReel' => [
+        'controller' => 'CreatorController',
+        'action' => 'generateReel'
+       ]
     ];
 
     public static function run(string $path) {
