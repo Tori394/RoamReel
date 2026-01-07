@@ -38,11 +38,11 @@ class SecurityController extends AppController {
         $userRow = $this->userRepository->getUserByEmail($email);
 
         if (!$userRow) {
-            return $this->render('login', ['message' => 'User not found']);
+            return $this->render('login', ['message' => 'Wrong email or password']);
         }
 
         if (!password_verify($password, $userRow['password'])) {
-            return $this->render('login', ['message' => 'Wrong password']);
+            return $this->render('login', ['message' => 'Wrong email or password']);
         }
         
         // TODO możemy przechowywać sesje użytkowika lub token
@@ -72,7 +72,7 @@ class SecurityController extends AppController {
 
         $userRow = $this->userRepository->getUserByEmail($email);
         if ($userRow !== null) {
-            return $this->render('register', ['message' => 'User with this email already exists']);
+            return $this->render('register', ['message' => 'Something went wrong']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);

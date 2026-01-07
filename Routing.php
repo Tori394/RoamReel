@@ -8,6 +8,7 @@ require_once 'src/controllers/DashboardController.php';
 
 class Routing {
 
+    //sesja uzytkownika
     public static $routing = [
         'login' => [
             'controller' => 'SecurityController',
@@ -32,6 +33,10 @@ class Routing {
         'test' => [
             'controller' => 'DashboardController',
             'action' => 'index'
+        ],
+        'test-search' => [
+            'controller' => 'DashboardController',
+            'action' => 'search'
         ]
     ];
 
