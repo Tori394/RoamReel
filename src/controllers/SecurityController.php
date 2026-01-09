@@ -17,7 +17,7 @@ class SecurityController extends AppController {
     private $userRepository;
 
     public function __construct() {
-        $this->userRepository = new UserRepository();
+        $this->userRepository = UserRepository().getInstance();
     }
 
     public function login() {
@@ -78,6 +78,10 @@ class SecurityController extends AppController {
         $userRow = $this->userRepository->getUserByEmail($email);
         if ($userRow !== null) {
             return $this->render('register', ['message' => 'Something went wrong']);
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->render('login', ['messages' => 'Invalid email format']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);

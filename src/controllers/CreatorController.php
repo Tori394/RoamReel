@@ -75,7 +75,7 @@ class CreatorController extends AppController {
         $debug['python_raw_output'] = $pythonOutput;
 
         // Zapis do bazy
-        $reelsRepository = new ReelsRepository();
+        $reelsRepository = ReelsRepository().getInstance();
         $reelsRepository->addReel($outputVideoPath);
 
         echo json_encode(['status' => 'success', 'debug' => $debug]);
