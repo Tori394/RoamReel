@@ -22,6 +22,15 @@ class SecurityController extends AppController {
 
     private function generateCsrfToken() {
     if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+                'lifetime' => 3600,
+                'path' => '/',
+                'domain' => '',     
+                'secure' => true,   
+                'httponly' => true,  
+                'samesite' => 'Strict' 
+            ]);
+            session_start();
         session_start();
     }
   
@@ -32,6 +41,14 @@ class SecurityController extends AppController {
 
     public function login() {
         if (session_status() === PHP_SESSION_NONE) {
+            session_set_cookie_params([
+                'lifetime' => 3600,
+                'path' => '/',
+                'domain' => '',     
+                'secure' => true,   
+                'httponly' => true,  
+                'samesite' => 'Strict' 
+            ]);
             session_start();
         }
 
@@ -47,11 +64,19 @@ class SecurityController extends AppController {
             return $this->render('login', ['message' => 'Fill all fields']);
         }
 
+        if (strlen($email) > 100) {
+            return $this->render('login', ['message' => 'Invalid input length']);
+        };
+
+        if (strlen($password) > 100) {
+            return $this->render('login', ['message' => 'Invalid input length']);
+        };
+
         $clientToken = $_POST['csrf'] ?? '';
         $serverToken = $_SESSION['csrf'] ?? '';
 
         if (($_POST['csrf'] !== $_SESSION['csrf'])) {
-            die("CSRF detected");
+            return $this->render('login', ['message' => 'CSRF detected']);
         }
 
         $userRow = $this->userRepository->getUserByEmail($email);
@@ -61,6 +86,7 @@ class SecurityController extends AppController {
         }
 
         if (!password_verify($password, $userRow['password'])) {
+            error_log("Login failed for email $email");
             return $this->render('login', ['message' => 'Wrong email or password']);
         }
 
@@ -68,11 +94,7 @@ class SecurityController extends AppController {
 
         $_SESSION['user_id'] = $userRow['id'];
         $_SESSION['username'] = $userRow['username'];
-
-        setcookie("user_email", $userRow['email'], time() + 3600, "/", "", true, true); //ciasteczko na godzinę
-                                                   //zabezpieczenie Secure ^^^^ | ^^^^ zabezpieczenie HttpOnly
                                                                              
-
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
         exit();
@@ -80,6 +102,14 @@ class SecurityController extends AppController {
 
     public function register() {
         if (session_status() === PHP_SESSION_NONE) {
+            session_set_cookie_params([
+                'lifetime' => 3600,
+                'path' => '/',
+                'domain' => '',     
+                'secure' => true,   
+                'httponly' => true,  
+                'samesite' => 'Strict' 
+            ]);
             session_start();
         }
 
@@ -97,6 +127,22 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Fill all fields']);
         }
 
+        if (strlen($email) > 100) {
+            return $this->render('register', ['message' => 'Invalid input length']);
+        };
+
+        if (strlen($password) > 100) {
+            return $this->render('register', ['message' => 'Invalid input length']);
+        };
+
+        if (strlen($confPassword) > 100) {
+            return $this->render('register', ['message' => 'Invalid input length']);
+        };
+
+        if (strlen($username) > 50) {
+            return $this->render('register', ['message' => 'Invalid input length']);
+        };
+
         if ($password !== $confPassword) {
             return $this->render('register', ['message' => 'Passwords do not match']);
         }
@@ -105,7 +151,7 @@ class SecurityController extends AppController {
         $serverToken = $_SESSION['csrf'] ?? '';
 
         if (($_POST['csrf'] !== $_SESSION['csrf'])) {
-            die("CSRF detected");
+            return $this->render('register', ['message' => 'CSRF detected']);
         }
 
         $userRow = $this->userRepository->getUserByEmail($email);
