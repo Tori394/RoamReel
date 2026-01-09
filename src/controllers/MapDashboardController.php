@@ -14,6 +14,9 @@ class MapDashboardController extends AppController {
     }
 
     public function index(?int $id) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         
         if (!isset($_SESSION['user_id'])) {
 

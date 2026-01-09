@@ -18,6 +18,10 @@ class Routing {
             'controller' => 'SecurityController',
             'action' => 'register'
         ],
+        'logout' => [
+            'controller' => 'SecurityController',
+            'action' => 'logout'
+        ],
         'dashboard' => [
             'controller' => 'MapDashboardController',
             'action' => 'index'

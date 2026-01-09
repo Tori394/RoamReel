@@ -29,8 +29,7 @@ class SecurityController extends AppController {
                 'secure' => true,   
                 'httponly' => true,  
                 'samesite' => 'Strict' 
-            ]);
-            session_start();
+        ]);
         session_start();
     }
   
@@ -75,7 +74,7 @@ class SecurityController extends AppController {
         $clientToken = $_POST['csrf'] ?? '';
         $serverToken = $_SESSION['csrf'] ?? '';
 
-        if (($_POST['csrf'] !== $_SESSION['csrf'])) {
+        if ($clientToken !== $serverToken) {
             return $this->render('login', ['message' => 'CSRF detected']);
         }
 
@@ -94,6 +93,8 @@ class SecurityController extends AppController {
 
         $_SESSION['user_id'] = $userRow['id'];
         $_SESSION['username'] = $userRow['username'];
+
+        error_log("zalogowano $email");
                                                                              
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
@@ -127,19 +128,7 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Fill all fields']);
         }
 
-        if (strlen($email) > 100) {
-            return $this->render('register', ['message' => 'Invalid input length']);
-        };
-
-        if (strlen($password) > 100) {
-            return $this->render('register', ['message' => 'Invalid input length']);
-        };
-
-        if (strlen($confPassword) > 100) {
-            return $this->render('register', ['message' => 'Invalid input length']);
-        };
-
-        if (strlen($username) > 50) {
+        if (strlen($email) > 100 || strlen($password) > 100 || strlen($confPassword) > 100 || strlen($username) > 50) {
             return $this->render('register', ['message' => 'Invalid input length']);
         };
 
@@ -150,8 +139,8 @@ class SecurityController extends AppController {
         $clientToken = $_POST['csrf'] ?? '';
         $serverToken = $_SESSION['csrf'] ?? '';
 
-        if (($_POST['csrf'] !== $_SESSION['csrf'])) {
-            return $this->render('register', ['message' => 'CSRF detected']);
+        if ($clientToken !== $serverToken) {
+            return $this->render('login', ['message' => 'CSRF detected']);
         }
 
         $userRow = $this->userRepository->getUserByEmail($email);
@@ -189,10 +178,9 @@ class SecurityController extends AppController {
 
         session_destroy();
 
-        setcookie("user_email", "", time() - 3600, "/");
-
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
+        exit();
     }
 
     
