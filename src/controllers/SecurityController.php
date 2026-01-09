@@ -17,11 +17,26 @@ class SecurityController extends AppController {
     private $userRepository;
 
     public function __construct() {
-        $this->userRepository = UserRepository().getInstance();
+        $this->userRepository = UserRepository::getInstance();
     }
 
+    private function generateCsrfToken() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+  
+    if (empty($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(32)); // 64 znakow token
+    }
+}
+
     public function login() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!$this->isPost()) { //early return
+            $this->generateCsrfToken();
             return $this->render('login'); 
         }
 
@@ -30,6 +45,13 @@ class SecurityController extends AppController {
 
         if (empty($email) || empty($password)) {
             return $this->render('login', ['message' => 'Fill all fields']);
+        }
+
+        $clientToken = $_POST['csrf'] ?? '';
+        $serverToken = $_SESSION['csrf'] ?? '';
+
+        if (($_POST['csrf'] !== $_SESSION['csrf'])) {
+            die("CSRF detected");
         }
 
         $userRow = $this->userRepository->getUserByEmail($email);
@@ -42,15 +64,14 @@ class SecurityController extends AppController {
             return $this->render('login', ['message' => 'Wrong email or password']);
         }
 
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        session_regenerate_id(true);
 
         $_SESSION['user_id'] = $userRow['id'];
         $_SESSION['username'] = $userRow['username'];
 
-        setcookie("user_email", $userRow['email'], time() + 3600, "/", "", false, true); //ciasteczko na godzinę
-                                                                                //^^^^ zabezpieczenie HttpOnly
+        setcookie("user_email", $userRow['email'], time() + 3600, "/", "", true, true); //ciasteczko na godzinę
+                                                   //zabezpieczenie Secure ^^^^ | ^^^^ zabezpieczenie HttpOnly
+                                                                             
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
@@ -58,7 +79,12 @@ class SecurityController extends AppController {
     }
 
     public function register() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!$this->isPost()) { //early return
+            $this->generateCsrfToken();
             return $this->render('register'); 
         }
 
@@ -75,13 +101,20 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Passwords do not match']);
         }
 
+        $clientToken = $_POST['csrf'] ?? '';
+        $serverToken = $_SESSION['csrf'] ?? '';
+
+        if (($_POST['csrf'] !== $_SESSION['csrf'])) {
+            die("CSRF detected");
+        }
+
         $userRow = $this->userRepository->getUserByEmail($email);
         if ($userRow !== null) {
             return $this->render('register', ['message' => 'Something went wrong']);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->render('login', ['messages' => 'Invalid email format']);
+            return $this->render('register', ['messages' => 'Invalid email format']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);

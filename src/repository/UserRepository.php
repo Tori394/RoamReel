@@ -5,7 +5,7 @@ require_once 'Repository.php';
 class UserRepository extends Repository
 {
     private static $instance;
-    
+
     public static function getInstance(): UserRepository
     {
         if (self::$instance === null) {
@@ -21,7 +21,6 @@ class UserRepository extends Repository
             ');
         $query->execute();
         $users = $query->fetchAll(PDO::FETCH_ASSOC);
-        //TODO close connection
         return $users;
     }
 
@@ -36,7 +35,6 @@ class UserRepository extends Repository
         if ($user === false) {
             return null;
         }
-        //TODO close connection
         return $user;
     }
 
