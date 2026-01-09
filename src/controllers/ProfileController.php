@@ -15,6 +15,13 @@ class ProfileController extends AppController {
 
     public function index() {
         
+        if (!isset($_SESSION['user_id'])) {
+
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
+
         return $this->render('profile');
     }
 

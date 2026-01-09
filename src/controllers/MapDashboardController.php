@@ -15,6 +15,13 @@ class MapDashboardController extends AppController {
 
     public function index(?int $id) {
         
+        if (!isset($_SESSION['user_id'])) {
+
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
+
         return $this->render('map');
     }
 

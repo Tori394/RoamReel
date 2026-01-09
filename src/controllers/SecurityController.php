@@ -20,9 +20,6 @@ class SecurityController extends AppController {
         $this->userRepository = new UserRepository();
     }
 
-
-    //TODO(?) dekorator, ktore opcje sa dostepne dla tego widoku
-
     public function login() {
         if (!$this->isPost()) { //early return
             return $this->render('login'); 
@@ -44,12 +41,20 @@ class SecurityController extends AppController {
         if (!password_verify($password, $userRow['password'])) {
             return $this->render('login', ['message' => 'Wrong email or password']);
         }
-        
-        // TODO możemy przechowywać sesje użytkowika lub token
-        // setcookie("username", $userRow['email'], time() + 3600, '/');
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION['user_id'] = $userRow['id'];
+        $_SESSION['username'] = $userRow['username'];
+
+        setcookie("user_email", $userRow['email'], time() + 3600, "/", "", false, true); //ciasteczko na godzinę
+                                                                                //^^^^ zabezpieczenie HttpOnly
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
+        exit();
     }
 
     public function register() {
@@ -84,6 +89,27 @@ class SecurityController extends AppController {
         );
 
         return $this->render('login', ['message' => 'Registration successful! You can log in now.']);
+    }
+
+    public function logout() {
+        session_start();
+        
+        $_SESSION = [];
+        
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        session_destroy();
+
+        setcookie("user_email", "", time() - 3600, "/");
+
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
     }
 
     

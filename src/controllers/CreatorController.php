@@ -15,6 +15,13 @@ class CreatorController extends AppController {
     }
 
     public function index() {
+
+        if (!isset($_SESSION['user_id'])) {
+
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
         
         return $this->render('creator');
     }
@@ -24,12 +31,10 @@ class CreatorController extends AppController {
     $debug = [];
 
     try {
-        // 1. Definiowanie ścieżek
         $uploaddir = __DIR__ . '/../../public/uploads/temp/';
         $videoDir = __DIR__ . '/../../public/videos/';
         $debug['paths'] = ['upload' => $uploaddir, 'video' => $videoDir];
 
-        // 2. Tworzenie folderów i sprawdzanie uprawnień
         if (!is_dir($uploaddir)) mkdir($uploaddir, 0777, true);
         if (!is_dir($videoDir)) mkdir($videoDir, 0777, true);
         
@@ -38,7 +43,7 @@ class CreatorController extends AppController {
             'video' => is_writable($videoDir)
         ];
 
-        // 3. Sprawdzanie czy pliki w ogóle dotarły do PHP
+        // Sprawdzanie czy pliki w ogóle dotarły do PHP
         if (!isset($_FILES['photos'])) {
             throw new Exception("Brak klucza 'photos' w tablicy \$_FILES. Sprawdź FormData w JS.");
         }
@@ -57,20 +62,19 @@ class CreatorController extends AppController {
         }
         $debug['moved_successfully'] = $movedFiles;
 
-        // 5. Wywołanie Pythona
+        // Python
         $videoName = 'reel_' . time() . '.mp4';
         $outputVideoPath = 'public/videos/' . $videoName;
         $fullPath = __DIR__ . '/../../' . $outputVideoPath;
         $pythonScript = __DIR__ . '/../services/video_maker.py';
 
-        // Sprawdzamy czy skrypt Pythona istnieje
         $debug['python_script_exists'] = file_exists($pythonScript);
 
         $command = "python3 $pythonScript " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullPath) . " 2>&1";
         $pythonOutput = shell_exec($command);
         $debug['python_raw_output'] = $pythonOutput;
 
-        // 6. Zapis do bazy
+        // Zapis do bazy
         $reelsRepository = new ReelsRepository();
         $reelsRepository->addReel($outputVideoPath);
 
