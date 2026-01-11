@@ -5,7 +5,7 @@ class ReelsRepository extends Repository {
 
     private static $instance;
     
-    public static function getInstance(): UserRepository
+    public static function getInstance(): ReelsRepository
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -17,7 +17,7 @@ class ReelsRepository extends Repository {
         string $path
         ) :void {
         $reel = $this->database->connect()->prepare('
-            INSERT INTO reels (video_path) VALUES (?)
+            INSERT INTO reels (video_name) VALUES (?)
             ');
         $reel->execute([
             $path

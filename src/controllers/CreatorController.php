@@ -33,9 +33,15 @@ class CreatorController extends AppController {
     header('Content-Type: application/json');
     $debug = [];
 
+    if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+    }
+
+    $username = $_SESSION['username'];
+
     try {
-        $uploaddir = __DIR__ . '/../../public/uploads/temp/';
-        $videoDir = __DIR__ . '/../../public/videos/';
+        $uploaddir = __DIR__ . '/../../media/'. $username . '/' . 'temp/';
+        $videoDir = __DIR__ . '/../../media/'. $username . '/';
         $debug['paths'] = ['upload' => $uploaddir, 'video' => $videoDir];
 
         if (!is_dir($uploaddir)) mkdir($uploaddir, 0777, true);
@@ -46,7 +52,7 @@ class CreatorController extends AppController {
             'video' => is_writable($videoDir)
         ];
 
-        // Sprawdzanie czy pliki w ogóle dotarły do PHP
+        // Sprawdzanie czy pliki dotarły do PHP
         if (!isset($_FILES['photos'])) {
             throw new Exception("Brak klucza 'photos' w tablicy \$_FILES. Sprawdź FormData w JS.");
         }
@@ -54,7 +60,7 @@ class CreatorController extends AppController {
         $fileCount = count($_FILES['photos']['name']);
         $debug['files_received'] = $fileCount;
 
-        // 4. Przenoszenie plików i czyszczenie
+        // Przenoszenie plików i czyszczenie
         array_map('unlink', glob("$uploaddir/*.*"));
         $movedFiles = 0;
         foreach ($_FILES['photos']['tmp_name'] as $index => $tmpName) {
@@ -67,7 +73,7 @@ class CreatorController extends AppController {
 
         // Python
         $videoName = 'reel_' . time() . '.mp4';
-        $outputVideoPath = 'public/videos/' . $videoName;
+        $outputVideoPath = 'media/'. $username . '/' . $videoName;
         $fullPath = __DIR__ . '/../../' . $outputVideoPath;
         $pythonScript = __DIR__ . '/../services/video_maker.py';
 
@@ -80,6 +86,9 @@ class CreatorController extends AppController {
         // Zapis do bazy
         $reelsRepository = ReelsRepository::getInstance();
         $reelsRepository->addReel($outputVideoPath);
+
+        array_map('unlink', glob("$uploaddir/*.*"));
+        $debug['cleanup'] = 'Temporary images deleted';
 
         echo json_encode(['status' => 'success', 'debug' => $debug]);
 

@@ -24,12 +24,24 @@ main{
     cursor: pointer;
     transition: 0.3s;
     background-color: #adadad;
+    flex-wrap: wrap;
+    gap: 10px; 
+    overflow-y: auto; 
+    position: relative;
 }
 
 #drop-zone.dragover {
     border-color: #ffffff;
     background-color: #f0f8ff;
     color: #ffffff;
+}
+
+.photo-preview {
+    object-fit: cover;     
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border: 1px solid #ddd;
+    display: block;        
 }
 
 p {

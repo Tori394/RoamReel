@@ -6,16 +6,11 @@ CREATE TABLE users (
     enabled BOOLEAN DEFAULT TRUE
 );
 
-INSERT INTO users (username, email, password, enabled)
-VALUES (
-    'JanKowalski',
-    'jan.kowalski@example.com',
-    '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq',
-    TRUE
-);
-
 CREATE TABLE reels (
     id SERIAL PRIMARY KEY,
-    video_path VARCHAR(255) NOT NULL,
+    user_id INTEGER REFERENCES users(id),
+    country VARCHAR(5),
+    video_name VARCHAR(255) NOT NULL,
+    thumbnail_name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
