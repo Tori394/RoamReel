@@ -37,6 +37,8 @@ main{
 }
 
 .photo-preview {
+    width: 100px;
+    height: 100px;
     object-fit: cover;     
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);

@@ -61,12 +61,6 @@ function handleFiles(files) {
             const img = document.createElement('img');
             img.src = e.target.result;
             img.classList.add('photo-preview');
-            img.style.width = "100px";
-            img.style.height = "100px";
-            img.style.objectFit = "cover";
-            img.style.borderRadius = "5px";
-            img.style.margin = "5px";
-            img.style.border = "1px solid #ddd";
             dropZone.appendChild(img);
         };
         reader.readAsDataURL(file);

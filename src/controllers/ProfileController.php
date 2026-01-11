@@ -25,7 +25,9 @@ class ProfileController extends AppController {
             exit();
         }
 
-        return $this->render('profile');
+        $username = $_SESSION['username'] ?? null;
+
+        return $this->render('profile', ['username' => $username]);
     }
 
 }
