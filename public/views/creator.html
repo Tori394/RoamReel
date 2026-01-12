@@ -10,7 +10,18 @@
 
 <body>
     <div class="dashboard">
+    <div class="main-panel">
         <div id="creating-panel">
+            <div id="selection-panel">
+                <label for="country-select">Select a country:</label>
+                <select id="country-select" name="country">
+                    <?php foreach($countries as $country): ?>
+                        <option value="<?= htmlspecialchars($country['name']); ?>"><?= htmlspecialchars($country['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <label for="date-select">Select date:</label>
+                <input type="date" id="date-select" name="date-select" class="input-date">
+            </div>
             <div id="drop-zone">
                 <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
                     <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
@@ -18,14 +29,16 @@
                 </svg>
             </div>
             <input type="file" id="file-input" multiple style="display:none;">
+        </div>
+        <div id="bottom-panel">
             <p>Photos uploaded: 0/60</p>
-
             <?php if(isset($message)): ?>
             <p class="message">
                 <?= $message; ?>
             </p>
              <?php endif; ?>
             <button type='submit' class="button btn-generate">Generate Reel</button>
+        </div>
         </div>
         <div class="side-panel">
             <button type="button" onclick="window.location.href='/profile'">

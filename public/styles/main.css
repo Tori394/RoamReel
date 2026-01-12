@@ -1,12 +1,14 @@
 body {
     font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
+    padding: 0;
     height: 100vh;
     background-color: #292654;
-
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
+
 
 .message {
     color: rgb(255, 78, 78);
@@ -24,14 +26,19 @@ body {
     align-items: stretch;
     flex-direction: column;
     gap: 20vh;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .dashboard {
-    flex-direction: row;
     display: flex;
-    height: 100vh;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
-    justify-content: flex-end;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
 
 .buttons {

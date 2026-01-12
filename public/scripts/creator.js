@@ -1,9 +1,9 @@
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
-const statusText = document.querySelector('#creating-panel p'); // To jest licznik
+const statusText = document.querySelector('#creating-panel p'); 
 const uploadIcon = dropZone.querySelector('svg');
 const generateBtn = document.querySelector('.btn-generate');
-const creatingPanel = document.getElementById('creating-panel'); // Potrzebne do wstawiania wiadomości
+const creatingPanel = document.getElementById('creating-panel');
 
 let uploadedFiles = []; 
 

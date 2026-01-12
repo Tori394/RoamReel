@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/ReelsRepository.php';
+require_once __DIR__ . '/../repository/CountryRepository.php';
 
 class CreatorController extends AppController {
 
@@ -25,8 +26,11 @@ class CreatorController extends AppController {
             header("Location: {$url}/login");
             exit();
         }
+        $countryRepository = CountryRepository::getInstance();
         
-        return $this->render('creator');
+        $countries = $countryRepository->getCountries();
+
+        return $this->render('creator', ['countries' => $countries]);
     }
 
   public function generateReel() {
