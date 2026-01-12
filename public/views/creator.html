@@ -16,7 +16,9 @@
                 <label for="country-select">Select a country:</label>
                 <select id="country-select" name="country">
                     <?php foreach($countries as $country): ?>
-                        <option value="<?= htmlspecialchars($country['name']); ?>"><?= htmlspecialchars($country['name']); ?></option>
+                        <option value="<?= htmlspecialchars($country['code']); ?>">
+                            <?= htmlspecialchars($country['name']); ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <label for="date-select">Select date:</label>

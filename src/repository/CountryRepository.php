@@ -17,12 +17,13 @@ class CountryRepository extends Repository
     public function getCountries()
     {
         $query = $this->database->connect()->prepare('
-            SELECT name FROM countries
+            SELECT * FROM countries
             ');
         $query->execute();
         $c = $query->fetchAll(PDO::FETCH_ASSOC);
         return $c;
     }
+
 }
 
 ?>

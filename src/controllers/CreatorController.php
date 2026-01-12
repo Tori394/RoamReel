@@ -44,18 +44,18 @@ class CreatorController extends AppController {
     $username = $_SESSION['username'];
 
     try {
+        $country = $_POST['country'];
+        $date = $_POST['date-select'];
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+
         $uploaddir = __DIR__ . '/../../media/'. $username . '/' . 'temp/';
         $videoDir = __DIR__ . '/../../media/'. $username . '/';
-        $debug['paths'] = ['upload' => $uploaddir, 'video' => $videoDir];
 
         if (!is_dir($uploaddir)) mkdir($uploaddir, 0777, true);
         if (!is_dir($videoDir)) mkdir($videoDir, 0777, true);
         
-        $debug['is_writable'] = [
-            'upload' => is_writable($uploaddir),
-            'video' => is_writable($videoDir)
-        ];
-
         // Sprawdzanie czy pliki dotarły do PHP
         if (!isset($_FILES['photos'])) {
             throw new Exception("Brak klucza 'photos' w tablicy \$_FILES. Sprawdź FormData w JS.");
@@ -73,21 +73,17 @@ class CreatorController extends AppController {
                 $movedFiles++;
             }
         }
-        $debug['moved_successfully'] = $movedFiles;
 
         // Python
         $videoName = 'reel_' . time();
-        $thumbnailPath = __DIR__ . '/../../media/'. $username . '/' . 'thumb_' . $videoName . '.jpg';
+        $thumbnailPath ='media/'. $username . '/' . 'thumb_' . $videoName . '.jpg';
         $videoName = $videoName . '.mp4';
         $outputVideoPath = 'media/'. $username . '/' . $videoName;
         $fullPath = __DIR__ . '/../../' . $outputVideoPath;
         $pythonScript = __DIR__ . '/../services/video_maker.py';
 
-        $debug['python_script_exists'] = file_exists($pythonScript);
-
         $command = "python3 $pythonScript " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullPath) . " 2>&1";
         $pythonOutput = shell_exec($command);
-        $debug['python_raw_output'] = $pythonOutput;
 
         $firstImage = $uploaddir . 'img_000.jpg';
             
@@ -99,17 +95,16 @@ class CreatorController extends AppController {
             }
 
         array_map('unlink', glob("$uploaddir/*.*"));
-        $debug['cleanup'] = 'Temporary images deleted';
 
         // Zapis do bazy
         $reelsRepository = ReelsRepository::getInstance();
-        $reelsRepository->addReel($outputVideoPath, $thumbnailPath);
+        $reelsRepository->addReel($outputVideoPath, $thumbnailPath, $country, $date);
 
-        echo json_encode(['status' => 'success', 'debug' => $debug]);
+        echo json_encode(['status' => 'success', 'videoPath' => $outputVideoPath]);
 
     } catch (Exception $e) {
         http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage(), 'debug' => $debug]);
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }
 

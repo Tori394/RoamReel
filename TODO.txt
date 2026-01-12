@@ -1,6 +1,5 @@
 Zdjęcie profilowe
 Timeline na profilu
-Dodanie daty i kraju w kreatorze
 Gleria krajów
 Widok reelsa:
     - podgląd filmu
@@ -10,3 +9,4 @@ Wymagania formatu hasła
 Naprawa widoków
 Konto administratora
 *Zmiana koloru kraju w zależnosci od wycieczek
+*Poprawka krajów
