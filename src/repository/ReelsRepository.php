@@ -14,13 +14,16 @@ class ReelsRepository extends Repository {
     }
 
     public function addReel(
-        string $path
+        string $path,
+        string $thumbnailPath
         ) :void {
         $reel = $this->database->connect()->prepare('
-            INSERT INTO reels (video_name) VALUES (?)
+            INSERT INTO reels (video_name, country_code, thumbnail_name) VALUES (?, ?, ?)
             ');
         $reel->execute([
-            $path
+            $path,
+            'PL',
+            $thumbnailPath
         ]);
     }
 }

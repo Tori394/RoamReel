@@ -4,7 +4,6 @@ require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/MapDashboardController.php';
 require_once 'src/controllers/CreatorController.php';
 require_once 'src/controllers/ProfileController.php';
-require_once 'src/controllers/DashboardController.php';
 
 class Routing {
 

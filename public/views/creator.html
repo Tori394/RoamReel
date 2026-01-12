@@ -19,6 +19,12 @@
             </div>
             <input type="file" id="file-input" multiple style="display:none;">
             <p>Photos uploaded: 0/60</p>
+
+            <?php if(isset($message)): ?>
+            <p class="message">
+                <?= $message; ?>
+            </p>
+             <?php endif; ?>
             <button type='submit' class="button btn-generate">Generate Reel</button>
         </div>
         <div class="side-panel">

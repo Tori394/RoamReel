@@ -72,7 +72,9 @@ class CreatorController extends AppController {
         $debug['moved_successfully'] = $movedFiles;
 
         // Python
-        $videoName = 'reel_' . time() . '.mp4';
+        $videoName = 'reel_' . time();
+        $thumbnailPath = __DIR__ . '/../../media/'. $username . '/' . 'thumb_' . $videoName . '.jpg';
+        $videoName = $videoName . '.mp4';
         $outputVideoPath = 'media/'. $username . '/' . $videoName;
         $fullPath = __DIR__ . '/../../' . $outputVideoPath;
         $pythonScript = __DIR__ . '/../services/video_maker.py';
@@ -83,12 +85,21 @@ class CreatorController extends AppController {
         $pythonOutput = shell_exec($command);
         $debug['python_raw_output'] = $pythonOutput;
 
-        // Zapis do bazy
-        $reelsRepository = ReelsRepository::getInstance();
-        $reelsRepository->addReel($outputVideoPath);
+        $firstImage = $uploaddir . 'img_000.jpg';
+            
+            if (file_exists($firstImage)) {
+                if(copy($firstImage, $thumbnailPath)) {
+                } else {
+                    $thumbnailPath = null; 
+                }
+            }
 
         array_map('unlink', glob("$uploaddir/*.*"));
         $debug['cleanup'] = 'Temporary images deleted';
+
+        // Zapis do bazy
+        $reelsRepository = ReelsRepository::getInstance();
+        $reelsRepository->addReel($outputVideoPath, $thumbnailPath);
 
         echo json_encode(['status' => 'success', 'debug' => $debug]);
 

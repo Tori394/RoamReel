@@ -1,10 +1,30 @@
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
-const statusText = document.querySelector('#creating-panel p');
+const statusText = document.querySelector('#creating-panel p'); // To jest licznik
 const uploadIcon = dropZone.querySelector('svg');
 const generateBtn = document.querySelector('.btn-generate');
+const creatingPanel = document.getElementById('creating-panel'); // Potrzebne do wstawiania wiadomości
 
 let uploadedFiles = []; 
+
+// --- NOWA FUNKCJA DO WYŚWIETLANIA WIADOMOŚCI ---
+function displayMessage(text, isError = false) {
+    // Szukamy czy element message już istnieje
+    let msgElement = creatingPanel.querySelector('.message');
+
+    // Jeśli nie istnieje (bo PHP go nie wygenerował), tworzymy go
+    if (!msgElement) {
+        msgElement = document.createElement('p');
+        msgElement.classList.add('message');
+        // Wstawiamy go przed przyciskiem generowania
+        creatingPanel.insertBefore(msgElement, generateBtn);
+    }
+
+    // Ustawiamy tekst i kolor
+    msgElement.innerText = text;
+    msgElement.style.display = 'block';
+}
+// ------------------------------------------------
 
 // Otwórz okno wyboru plików
 dropZone.addEventListener('click', (e) => {
@@ -43,9 +63,13 @@ function handleFiles(files) {
     const newFiles = Array.from(files);
 
     if (uploadedFiles.length + newFiles.length > 60) {
-        alert("You can upload up to 60 photos!");
+        // ZMIANA: Zamiast alert
+        displayMessage("You can upload up to 60 photos!", true);
         return;
     }
+    
+    // Jeśli dodajemy poprawne pliki, czyścimy ewentualne stare błędy
+    displayMessage(""); 
 
     if (newFiles.length > 0) {
         uploadIcon.style.display = 'none';
@@ -70,15 +94,21 @@ function handleFiles(files) {
 }
 
 function updateStatusText() {
-    statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/60`;
+    // statusText to ten element <p>Photos uploaded...</p>, nie mylić z .message
+    if(statusText) {
+        statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/60`;
+    }
 }
-
 
 
 // Generowanie filmu
 generateBtn.addEventListener('click', async () => {
+    // Czyścimy poprzednie komunikaty
+    displayMessage("");
+
     if (uploadedFiles.length === 0) {
-        alert("Upload at least one photo before generating the reel!");
+        // ZMIANA: Zamiast alert
+        displayMessage("Upload at least one photo before generating the reel!", true);
         return;
     }
 
@@ -107,16 +137,26 @@ generateBtn.addEventListener('click', async () => {
         }
 
         if (response.ok && result.status === 'success') {
-            alert("Film został wygenerowany!");
-            window.location.href = '/dashboard'; 
+            // ZMIANA: Zamiast alert
+            displayMessage("Film został wygenerowany! Przekierowanie...", false);
+            
+            // Czekamy 2 sekundy, żeby użytkownik zdążył przeczytać komunikat
+            setTimeout(() => {
+                window.location.href = '/dashboard'; 
+            }, 2000);
+            
         } else {
-            alert("Serwer zgłosił błąd: " + (result.message || "Nieznany błąd"));
+            // ZMIANA: Zamiast alert
+            displayMessage("Serwer zgłosił błąd: " + (result.message || "Nieznany błąd"), true);
+            
             generateBtn.innerText = "Generate Reel";
             generateBtn.disabled = false;
         }
     } catch (error) {
         console.error("Błąd krytyczny JS:", error);
-        alert("Wystąpił błąd komunikacji. Sprawdź konsolę (F12)!");
+        // ZMIANA: Zamiast alert
+        displayMessage("Wystąpił błąd komunikacji. Sprawdź konsolę (F12)!", true);
+        
         generateBtn.innerText = "Generate Reel";
         generateBtn.disabled = false;
     }
