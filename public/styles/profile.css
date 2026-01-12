@@ -40,6 +40,14 @@ main{
     height: 10rem;
 }
 
+.stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-direction: row;
+}
+
 #edit-icon {
     position: absolute;
     bottom: 0;

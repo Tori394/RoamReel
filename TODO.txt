@@ -10,3 +10,47 @@ Naprawa widoków
 Konto administratora
 *Zmiana koloru kraju w zależnosci od wycieczek
 *Poprawka krajów
+    Do DB:
+    - Greenland
+    - Western Sahara
+    - Faeroe Islands
+    - Guam
+    - Saint-Martin
+    - Northern Mariana Islands
+    - Falkland Islands
+    - Cayman Islands
+    - New Caledonia
+    - Puerto Rico
+    - French Polynesia
+    - Sint Maarten
+    - Canary Islands
+
+Do mapy:
+Andorra
+Austria
+Liechtenstein
+Monaco
+San Marino
+Vatican City
+Hong Kong
+Macau
+Singapore
+Kiribati
+
+  <path class="allPaths" d="M592.9 422l-0.5-0.2-0.5-0.5 0.1-0.6 0.2 0.3 0.4 0.4 0.3 0.5 0 0.1z" id="Aruba">
+            </path>
+            <path class="allPaths" d="M634.2 384.9l-0.2 0 0.3-0.4 0.3 0-0.2 0.3-0.2 0.1z" id="Anguilla">
+            </path>
+            <path class="allPaths"
+                d="M637.3 294l-0.3 0-0.1 0.1 0.1 0.2-0.4 0.2-0.1-0.1 0.2-0.1 0.1 0 0.1-0.3 0.3-0.1 0.1 0.1z" 
+                id="Bermuda">
+            </path>
+            <path class="allPaths"
+                d="M599 424.5l-0.3 0-0.4-0.3-0.3-0.1-0.3-0.3-0.1-0.2-0.3-0.1-0.2-0.4-0.3-0.3 0.1-0.5 0.5 0.3 0.1 0.5 0.4 0.4 0.7 0.2 0.2 0.3 0.3 0.4-0.1 0.1z" "CW"
+                id="Curaçao">
+            </path>
+            <path class="allPaths" id="Turks and Caicos Islands"
+                d="M 587.7 361.6 588.4 361.6 588.7 362 588.4 362 588.1 361.9 587.6 362 587.5 361.7 587.7 361.6 Z
+                M 585 361.5 585.3 361.9 585.9 361.8 585.7 362 585.1 362 584.7 361.8 585 361.5 Z
+                M 587.2 360.9 587.2 361.4 586.7 361.2 586.6 360.9 586.7 360.8 587.2 360.9 Z">
+            </path>

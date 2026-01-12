@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box; 
+}
+
 body {
     font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
@@ -6,9 +10,7 @@ body {
     background-color: #292654;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
-
 
 .message {
     color: rgb(255, 78, 78);
@@ -62,20 +64,3 @@ button {
   align-items: center;
 }
 
-/*
-@media screen {
-    
-    .side-panel {
-        flex-direction: row;
-        width: 100vw;
-        height: 6vh;
-    }
-
-    .dashboard {
-        flex-direction: column;
-        height: 100vh;
-        width: 100vw;
-        justify-content: flex-start;
-    }
-  
-}*/

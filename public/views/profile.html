@@ -29,7 +29,20 @@
                 <?= $username; ?>
             </p>
              <?php endif; ?>
-             
+             <div class="stats">
+                <div class="stat">
+                    <p class="stat-label">Trips: </p>
+                    <p class="stat-number" id="trip-count">0</p>
+                </div>
+                <div class="stat">
+                    <p class="stat-label">Places Visited: </p>
+                    <p class="stat-number" id="follower-count">0</p>
+                </div>
+                <div class="stat">
+                    <p class="stat-label">Joined Add: </p>
+                    <p class="stat-number" id="following-count">0</p>
+                </div>
+            </div>
             <div id="timeline">
                  <div id="trips"></div>
                 <p id="no-trips">No trips added</p>
