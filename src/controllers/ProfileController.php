@@ -30,5 +30,57 @@ class ProfileController extends AppController {
         return $this->render('profile', ['username' => $username]);
     }
 
+    public function uploadProfilePicture() {
+        ob_start(); 
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        header('Content-Type: application/json');
+
+        try {
+            if (!isset($_SESSION['user_id'])) {
+                throw new Exception('Nie jesteś zalogowany.');
+            }
+
+            $userId = $_SESSION['user_id'];
+
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/media/profile_pictures/';
+            $webDir = '/media/profile_pictures/';
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            $fileName = 'pfp_user_' . $userId . '.png';
+            $targetFilePath = $uploadDir . $fileName;
+
+            if (!isset($_FILES['pfp']) || $_FILES['pfp']['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception('Błąd przesyłania pliku.');
+            }
+
+            if (move_uploaded_file($_FILES['pfp']['tmp_name'], $targetFilePath)) {
+                ob_clean(); 
+                
+                echo json_encode([
+                    'status' => 'success', 
+                    'url' => $webDir . $fileName
+                ]);
+                exit; 
+            } else {
+                throw new Exception('Nie udało się zapisać pliku na dysku.');
+            }
+
+        } catch (Exception $e) {
+            ob_clean(); 
+            http_response_code(500); 
+            echo json_encode([
+                'status' => 'error', 
+                'message' => $e->getMessage()
+            ]);
+            exit;
+        }
+    }
 }
 ?>

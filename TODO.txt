@@ -1,13 +1,13 @@
 Zdjęcie profilowe
-Usuwanie w kreatorze
-Timeline na profilu
-Gleria krajów
 Widok reelsa:
     - podgląd filmu
     - zmiana kraju, daty
     - usuń
+Timeline na profilu
+Gleria krajów
 Wymagania formatu hasła
 Naprawa widoków
+
 *Konto administratora
 *Zmiana koloru kraju w zależnosci od wycieczek
 *Poprawka krajów

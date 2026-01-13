@@ -34,9 +34,13 @@ class Routing {
             'action' => 'index'
         ],
         'generateReel' => [
-        'controller' => 'CreatorController',
-        'action' => 'generateReel'
-       ]
+            'controller' => 'CreatorController',
+            'action' => 'generateReel'
+        ],
+        'upload_pfp' => [
+            'controller' => 'ProfileController',
+            'action' => 'uploadProfilePicture'
+        ]
     ];
 
     public static function run(string $path) {
