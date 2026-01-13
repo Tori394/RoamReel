@@ -1,4 +1,3 @@
-Zdjęcie profilowe
 Widok reelsa:
     - podgląd filmu
     - zmiana kraju, daty

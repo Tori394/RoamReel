@@ -53,4 +53,27 @@ class UserRepository extends Repository
             $password
         ]);
     }
+
+    public function updateUserProfilePicture(int $userId, ?string $profilePicturePath): void
+    {
+        $query = $this->database->connect()->prepare('
+            UPDATE users 
+            SET profile_picture = :profile_picture 
+            WHERE id = :id
+            ');
+        $query->bindParam(':profile_picture', $profilePicturePath, PDO::PARAM_STR);
+        $query->bindParam(':id', $userId, PDO::PARAM_INT);
+        $query->execute();
+    }
+
+    public function getUserProfilePicture(int $userId): ?string
+    {
+        $query = $this->database->connect()->prepare('
+            SELECT profile_picture FROM users WHERE id = :id
+            ');
+        $query->bindParam(':id', $userId, PDO::PARAM_INT);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result['profile_picture'] ?? null;
+    }
 }

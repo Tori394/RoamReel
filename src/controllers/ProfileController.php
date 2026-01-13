@@ -1,10 +1,17 @@
 <?php 
 
 require_once 'AppController.php';
+require_once __DIR__ . '/../repository/UserRepository.php';
 
 class ProfileController extends AppController {
 
     private static $instance = null;
+    private $userRepository; 
+
+    public function __construct()
+    {
+        $this->userRepository = UserRepository::getInstance();
+    }
 
     public static function getInstance(): ProfileController {
         if (self::$instance === null) {
@@ -25,9 +32,15 @@ class ProfileController extends AppController {
             exit();
         }
 
+        $userId = $_SESSION['user_id'];
         $username = $_SESSION['username'] ?? null;
 
-        return $this->render('profile', ['username' => $username]);
+        $pfpPath = $this->userRepository->getUserProfilePicture($userId);
+
+        return $this->render('profile', [
+            'username' => $username,
+            'pfpPath' => $pfpPath
+        ]);
     }
 
     public function uploadProfilePicture() {
@@ -36,8 +49,6 @@ class ProfileController extends AppController {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
-        header('Content-Type: application/json');
 
         try {
             if (!isset($_SESSION['user_id'])) {
@@ -55,6 +66,7 @@ class ProfileController extends AppController {
 
             $fileName = 'pfp_user_' . $userId . '.png';
             $targetFilePath = $uploadDir . $fileName;
+            $dbPath = $webDir . $fileName;
 
             if (!isset($_FILES['pfp']) || $_FILES['pfp']['error'] !== UPLOAD_ERR_OK) {
                 throw new Exception('Błąd przesyłania pliku.');
@@ -62,6 +74,8 @@ class ProfileController extends AppController {
 
             if (move_uploaded_file($_FILES['pfp']['tmp_name'], $targetFilePath)) {
                 ob_clean(); 
+
+                $this->userRepository->updateUserProfilePicture($userId, $dbPath);
                 
                 echo json_encode([
                     'status' => 'success', 

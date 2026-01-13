@@ -14,9 +14,7 @@
             <div class="profile-wrapper">
                 <div id="profile-picture">
                     <?php 
-                        $pfpPath = "media/$username/pfp.jpg";
-                        if (file_exists($pfpPath)): 
-                    ?>
+                        if (isset($pfpPath) && !empty($pfpPath)): ?> 
                     <img src="<?= $pfpPath ?>?v=<?= time() ?>" alt="Profile Picture" id="current-pfp-img" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     <?php else: ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
