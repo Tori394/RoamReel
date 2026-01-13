@@ -58,14 +58,38 @@ main{
     color: #ffffff;
 }
 
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
 .photo-preview {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;     
+    max-width: 100px; 
+    max-height: 100px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border: 1px solid #ddd;
-    display: block;        
+    display: block;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background:  #4a477a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-btn:hover {
+    background:  #343155;
 }
 
 p {

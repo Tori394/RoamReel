@@ -21,6 +21,9 @@ function displayMessage(text) {
 }
 
 dropZone.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-btn')) {
+        return;
+    }
     fileInput.click();
 });
 
@@ -61,11 +64,32 @@ function handleFiles(files) {
 
         const reader = new FileReader();
         reader.onload = (e) => {
+            const container = document.createElement('div');
+            container.classList.add('image-preview-container');
+
             const img = document.createElement('img');
             img.src = e.target.result;
             img.classList.add('photo-preview');
+
+            const removeBtn = document.createElement('button');
+            removeBtn.innerHTML = '&times;';
+            removeBtn.classList.add('remove-btn');
+
+            removeBtn.onclick = (evt) => {
+                evt.stopPropagation(); 
+                uploadedFiles = uploadedFiles.filter(f => f !== file);
+                container.remove();
+                updateStatusText();
+                if (uploadedFiles.length === 0 && uploadIcon) {
+                    uploadIcon.style.display = 'block';
+                }
+            };
+
+            container.appendChild(img);
+            container.appendChild(removeBtn);
+
             if (uploadIcon) uploadIcon.style.display = 'none';
-            dropZone.appendChild(img);
+            dropZone.appendChild(container);
         };
         reader.readAsDataURL(file);
     });
