@@ -1,12 +1,12 @@
-Python zwraca thubnail
-Widok reelsa:
+Timeline na profilu
+Gleria krajów
+Miniatury to guziki
+Widok reelsa + routing:
     - podgląd filmu
     - zmiana kraju, daty
     - usuń
-Timeline na profilu
-Gleria krajów
 Wymagania formatu hasła
 Naprawa widoków (reel, kreator, profil, mapa)
+Konto administratora
 
-*Konto administratora
 *Zmiana koloru kraju w zależnosci od wycieczek

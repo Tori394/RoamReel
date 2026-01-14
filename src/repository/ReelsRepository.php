@@ -34,10 +34,19 @@ class ReelsRepository extends Repository {
 
     public function getReelsByUserId(int $userId) {
         $reels = $this->database->connect()->prepare('
-            SELECT * FROM reels WHERE user_id = ?
+            SELECT thumbnail_name, created_at FROM reels WHERE user_id = ?
         ');
         $reels->execute([$userId]);
         return $reels->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countReelsByUserId(int $userId): int {
+        $countQuery = $this->database->connect()->prepare('
+            SELECT COUNT(*) AS reel_count FROM reels WHERE user_id = ?
+        ');
+        $countQuery->execute([$userId]);
+        $result = $countQuery->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['reel_count'];
     }
     
 }

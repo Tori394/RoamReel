@@ -7,6 +7,10 @@ CREATE TABLE users (
     profile_picture VARCHAR(255)
 );
 
+INSERT INTO users (username, email, password, enabled, profile_picture) VALUES
+('testuser', 'test@test.pl, $2y$10$Bq3M0CXba81qm7jhr1kVgOqee09RpSZY4zcSBdkjiYJvkS5STrerO', TRUE)
+ON CONFLICT (email) DO NOTHING;
+
 CREATE TABLE countries (
     name VARCHAR(100) PRIMARY KEY
 );

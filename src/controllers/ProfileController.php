@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ . '/../repository/ReelsRepository.php';
 
 class ProfileController extends AppController {
 
@@ -37,10 +38,15 @@ class ProfileController extends AppController {
 
         $pfpPath = $this->userRepository->getUserProfilePicture($userId);
 
+        $reelsRepository = ReelsRepository::getInstance();
+        $reels = $reelsRepository->getReelsByUserId($userId);
+
         return $this->render('profile', [
             'username' => $username,
-            'pfpPath' => $pfpPath
+            'pfpPath' => $pfpPath,
+            'reels' => $reels 
         ]);
+
     }
 
     public function uploadProfilePicture() {
