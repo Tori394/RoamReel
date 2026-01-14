@@ -35,10 +35,24 @@ def create_reel(folder_path, output_path):
     else:
         print("Error: Could not process any images")
 
+def create_thumbnail(thumbnail_path):
+    try:
+        with Image.open(thumbnail_path) as img:
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            img_resized = ImageOps.pad(img, (1080, 1920), method=Image.Resampling.LANCZOS, color='black')
+            img_resized.save(thumbnail_path)
+    except Exception as e:
+        print(f"Error creating thumbnail: {e}")
+
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print("Usage: python video_maker.py <input_folder> <output_file>")
     else:
         path_to_images = sys.argv[1]
         save_to = sys.argv[2]
         create_reel(path_to_images, save_to)
+
+        save_thumbnail = sys.argv[3]
+        create_thumbnail(save_thumbnail)

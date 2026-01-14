@@ -103,15 +103,7 @@ class CreatorController extends AppController {
             $dbVideoPath = 'media/' . $username . '/' . $videoName;
             $dbThumbPath = 'media/' . $username . '/' . $thumbName;
 
-            $pythonScript = __DIR__ . '/../services/video_maker.py';
             
-            $command = "python3 " . escapeshellarg($pythonScript) . " " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullVideoPath) . " 2>&1";
-            $pythonOutput = shell_exec($command);
-
-            if (!file_exists($fullVideoPath)) {
-                throw new Exception("Skrypt Python nie wygenerował pliku. Output: " . $pythonOutput, 500);
-            }
-
             // Generowanie miniatury z pierwszego zdjęcia
             $firstImage = $uploaddir . 'img_000.jpg';
             $finalThumbDbPath = null;
@@ -120,6 +112,15 @@ class CreatorController extends AppController {
                 if (copy($firstImage, $fullThumbPath)) {
                     $finalThumbDbPath = $dbThumbPath;
                 }
+            }
+
+            $pythonScript = __DIR__ . '/../services/video_maker.py';
+            
+            $command = "python3 " . escapeshellarg($pythonScript) . " " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullVideoPath) . " " . escapeshellarg($fullThumbPath) . " 2>&1";
+            $pythonOutput = shell_exec($command);
+
+            if (!file_exists($fullVideoPath)) {
+                throw new Exception("Skrypt Python nie wygenerował pliku. Output: " . $pythonOutput, 500);
             }
 
             // Sprzątanie

@@ -1,0 +1,26 @@
+main{
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.main-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+}
+
+p {
+    color: #ffffff;
+}
+
+#reel-panel {
+    width: 60vw;
+    height: 80vh;
+    margin-top: 5vh;
+    background-color: #3a3a7c;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
