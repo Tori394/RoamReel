@@ -40,11 +40,13 @@ class ProfileController extends AppController {
 
         $reelsRepository = ReelsRepository::getInstance();
         $reels = $reelsRepository->getReelsByUserId($userId);
+        $reelsCount = count($reels);
 
         return $this->render('profile', [
             'username' => $username,
             'pfpPath' => $pfpPath,
-            'reels' => $reels 
+            'reels' => $reels, 
+            'reelsCount' => $reelsCount
         ]);
 
     }

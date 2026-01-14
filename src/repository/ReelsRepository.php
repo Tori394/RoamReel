@@ -40,13 +40,4 @@ class ReelsRepository extends Repository {
         return $reels->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function countReelsByUserId(int $userId): int {
-        $countQuery = $this->database->connect()->prepare('
-            SELECT COUNT(*) AS reel_count FROM reels WHERE user_id = ?
-        ');
-        $countQuery->execute([$userId]);
-        $result = $countQuery->fetch(PDO::FETCH_ASSOC);
-        return (int)$result['reel_count'];
-    }
-    
 }

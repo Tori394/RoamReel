@@ -1,4 +1,3 @@
-Timeline na profilu
 Gleria krajów
 Miniatury to guziki
 Widok reelsa + routing:
