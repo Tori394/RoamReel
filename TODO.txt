@@ -1,3 +1,4 @@
+Python zwraca thubnail
 Widok reelsa:
     - podgląd filmu
     - zmiana kraju, daty

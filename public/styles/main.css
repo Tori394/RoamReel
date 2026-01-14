@@ -64,3 +64,21 @@ button {
   align-items: center;
 }
 
+
+@media screen and (max-width: 480px) {
+    .side-panel {
+        width: 12vw;
+        gap: 10vh;
+        flex-direction: row;
+    }
+
+    .buttons {
+        width: 8vw;
+    }
+
+    .dashboard {
+        width: 100%;
+        height: calc(100vh - 12vw);
+        flex-direction: column;
+    }
+}
