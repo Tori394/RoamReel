@@ -17,7 +17,7 @@ class CountryRepository extends Repository
     public function getCountries()
     {
         $query = $this->database->connect()->prepare('
-            SELECT * FROM countries
+            SELECT name FROM countries
             ');
         $query->execute();
         $c = $query->fetchAll(PDO::FETCH_ASSOC);

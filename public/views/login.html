@@ -15,7 +15,7 @@
             </p>
         <?php endif; ?>
     <form action="\login" method="POST">
-        <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf']; ?>">
+        <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?? '' ?>">
 
         <label for="email">Email</label>
         <input name=email type ='email' placeholder="E-mail">

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const maxWidthOffset = sizes.width - sizes.viewBox.width * zoom;
         const maxHeightOffset = sizes.height - sizes.viewBox.height * zoom + padding;
-        const minPanX = sizes.width - (1500 * zoom);
+        const minPanX = sizes.width - (sizes.viewBox.width * zoom);
 
         return {
             x: Math.min(padding, Math.max(newPan.x, Math.max(maxWidthOffset, minPanX))),

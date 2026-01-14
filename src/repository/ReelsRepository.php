@@ -16,16 +16,16 @@ class ReelsRepository extends Repository {
     public function addReel(
         $path,
         $thumbnailPath,
-        $countryCode,
+        $country,
         $createdAt
         ) :void {
         $reel = $this->database->connect()->prepare('
-            INSERT INTO reels (user_id, country_code, video_name, thumbnail_name, created_at) VALUES (?, ?, ?, ?, ?)
+            INSERT INTO reels (user_id, country, video_name, thumbnail_name, created_at) VALUES (?, ?, ?, ?, ?)
             ');
         $userId = $_SESSION['user_id'];
         $reel->execute([
             $userId,
-            $countryCode,
+            $country,
             $path,
             $thumbnailPath,
             $createdAt
@@ -39,12 +39,5 @@ class ReelsRepository extends Repository {
         $reels->execute([$userId]);
         return $reels->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function getReelsByCountryCode(string $countryCode, int $userId) {
-        $reels = $this->database->connect()->prepare('
-            SELECT * FROM reels WHERE country_code = ? AND user_id = ?
-        ');
-        $reels->execute([$countryCode, $userId]);
-        return $reels->fetchAll(PDO::FETCH_ASSOC);
-    }
+    
 }
