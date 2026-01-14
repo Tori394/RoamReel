@@ -65,20 +65,33 @@ button {
 }
 
 
+
 @media screen and (max-width: 480px) {
     .side-panel {
-        width: 12vw;
-        gap: 10vh;
+        height: 10vh; 
+        width: 100%;    
         flex-direction: row;
+        gap: 15vw;      
+        left: 0;
+        top: 0;
+        padding: 0;  
+        justify-content: center;
+        align-items: center;           
     }
 
     .buttons {
-        width: 8vw;
+        width: 15vw;   
+        height: auto;  
     }
 
-    .dashboard {
-        width: 100%;
-        height: calc(100vh - 12vw);
-        flex-direction: column;
+    .side-panel form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .side-panel form .buttons{
+        width: 17vw;   
+        height: auto;  
     }
 }
