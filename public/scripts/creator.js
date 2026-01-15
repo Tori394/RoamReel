@@ -50,8 +50,8 @@ dropZone.addEventListener('drop', (e) => {
 function handleFiles(files) {
     const newFiles = Array.from(files);
 
-    if (uploadedFiles.length + newFiles.length > 60) {
-        displayMessage("You can upload up to 60 photos!");
+    if (uploadedFiles.length + newFiles.length > 30) {
+        displayMessage("You can upload up to 30 photos!");
         return;
     }
     
@@ -102,6 +102,7 @@ function updateStatusText() {
         statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/60`;
     }
 }
+
 
 generateBtn.addEventListener('click', async () => {
     displayMessage("");

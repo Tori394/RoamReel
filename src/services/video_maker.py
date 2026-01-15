@@ -2,6 +2,27 @@ import sys
 import os
 from moviepy.editor import ImageSequenceClip
 from PIL import Image, ImageOps 
+import concurrent.futures 
+
+TARGET_SIZE = (1080, 1920)
+
+def process_single_image(img_path):
+    """
+    Funkcja przetwarzająca jedno zdjęcie.
+    Musi być poza główną funkcją, aby działała w multiprocessingu.
+    """
+    try:
+        with Image.open(img_path) as img:
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BICUBIC, color='black')
+            
+            img_resized.save(img_path, quality=90)
+            return img_path
+    except Exception as e:
+        print(f"Warning: Skipping bad image {img_path}: {e}")
+        return None
 
 def create_reel(folder_path, output_path):
     valid_extensions = ('.jpg', '.jpeg', '.png')
@@ -9,31 +30,30 @@ def create_reel(folder_path, output_path):
              if f.lower().endswith(valid_extensions)]
     
     if not files:
-        print("Error: No images found")
         return
 
-    target_size = (1080, 1920)
     processed_files = []
 
-    for img_path in files:
-        try:
-            with Image.open(img_path) as img:
-                if img.mode != 'RGB':
-                    img = img.convert('RGB')
+    # ProcessPoolExecutor automatycznie dobiera liczbę procesów do liczby rdzeni
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = list(executor.map(process_single_image, files))
 
-                img_resized = ImageOps.pad(img, target_size, method=Image.Resampling.LANCZOS, color='black')
-                
-                img_resized.save(img_path)
-                processed_files.append(img_path)
-        except Exception as e:
-            print(f"Warning: Skipping bad image {img_path}: {e}")
+    processed_files = [f for f in results if f is not None]
 
-    fps = 60 / processed_files.__len__()
+    fps = 30 / len(processed_files) if processed_files else 0
 
     if processed_files:
+        print("Rendering video...")
         clip = ImageSequenceClip(processed_files, fps=fps)
         
-        clip.write_videofile(output_path, codec="libx264", audio=False, fps=24, preset='ultrafast')
+        clip.write_videofile(
+            output_path, 
+            codec="libx264", 
+            audio=False, 
+            fps=24, 
+            preset='ultrafast',
+            threads=4
+        )
     else:
         print("Error: Could not process any images")
 
@@ -43,8 +63,8 @@ def create_thumbnail(thumbnail_path):
             if img.mode != 'RGB':
                 img = img.convert('RGB')
 
-            img_resized = ImageOps.pad(img, (1080, 1920), method=Image.Resampling.LANCZOS, color='black')
-            img_resized.save(thumbnail_path)
+            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BICUBIC, color='black')
+            img_resized.save(thumbnail_path, quality=90)
     except Exception as e:
         print(f"Error creating thumbnail: {e}")
 
@@ -54,7 +74,9 @@ if __name__ == "__main__":
     else:
         path_to_images = sys.argv[1]
         save_to = sys.argv[2]
+        
         create_reel(path_to_images, save_to)
 
-        save_thumbnail = sys.argv[3]
-        create_thumbnail(save_thumbnail)
+        if len(sys.argv) > 3:
+            save_thumbnail = sys.argv[3]
+            create_thumbnail(save_thumbnail)
