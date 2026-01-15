@@ -3,12 +3,11 @@ CREATE TABLE users (
     username VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    enabled BOOLEAN DEFAULT TRUE,
     profile_picture VARCHAR(255)
 );
 
-INSERT INTO users (username, email, password, enabled, profile_picture) VALUES
-('testuser', 'test@test.pl, $2y$10$Bq3M0CXba81qm7jhr1kVgOqee09RpSZY4zcSBdkjiYJvkS5STrerO', TRUE)
+INSERT INTO users (username, email, password) VALUES
+('testuser', 'test@test.pl', '$2y$10$Bq3M0CXba81qm7jhr1kVgOqee09RpSZY4zcSBdkjiYJvkS5STrerO')
 ON CONFLICT (email) DO NOTHING;
 
 CREATE TABLE countries (

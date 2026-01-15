@@ -42,11 +42,20 @@ class ProfileController extends AppController {
         $reels = $reelsRepository->getReelsByUserId($userId);
         $reelsCount = count($reels);
 
+        $groupedReels = [];
+        foreach ($reels as $reel) {
+            $dateKey = date("F Y", strtotime($reel['created_at']));
+            $groupedReels[$dateKey][] = $reel;
+        }
+
+        $placesCount = count($reelsRepository->getVisitedCountriesByUserId($userId));
+
         return $this->render('profile', [
             'username' => $username,
             'pfpPath' => $pfpPath,
-            'reels' => $reels, 
-            'reelsCount' => $reelsCount
+            'reels' => $groupedReels, 
+            'reelsCount' => $reelsCount,
+            'placesCount' => $placesCount
         ]);
 
     }

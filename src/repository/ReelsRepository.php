@@ -34,10 +34,19 @@ class ReelsRepository extends Repository {
 
     public function getReelsByUserId(int $userId) {
         $reels = $this->database->connect()->prepare('
-            SELECT thumbnail_name, created_at FROM reels WHERE user_id = ?
+            SELECT thumbnail_name, created_at, country FROM reels WHERE user_id = ?
+            ORDER BY created_at DESC
         ');
         $reels->execute([$userId]);
         return $reels->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getVisitedCountriesByUserId(int $userId) {
+        $countries = $this->database->connect()->prepare('
+            SELECT DISTINCT country FROM reels WHERE user_id = ?
+        ');
+        $countries->execute([$userId]);
+        return $countries->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
