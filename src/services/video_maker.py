@@ -28,8 +28,10 @@ def create_reel(folder_path, output_path):
         except Exception as e:
             print(f"Warning: Skipping bad image {img_path}: {e}")
 
+    fps = 60 / processed_files.__len__()
+
     if processed_files:
-        clip = ImageSequenceClip(processed_files, fps=1)
+        clip = ImageSequenceClip(processed_files, fps=fps)
         
         clip.write_videofile(output_path, codec="libx264", audio=False, fps=24, preset='ultrafast')
     else:
