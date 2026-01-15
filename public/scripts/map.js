@@ -71,10 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
                   reelWrapper.classList.add("trip-card"); 
 
                   reelWrapper.innerHTML = `
+                    <a href="/reel" class="trip-card-link">
                       <img src="${imgPath}" alt="Trip thumbnail">
                       <div class="trip-info">
                           <span class="trip-date">${dateDisplay}</span>
                       </div>
+                    </a>
                   `;
 
                   reelsContainer.appendChild(reelWrapper);

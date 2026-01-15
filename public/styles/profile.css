@@ -170,6 +170,7 @@ p {
 .trip-card:hover {
     transform: scale(1.05);
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .trip-info {
@@ -261,4 +262,10 @@ p {
     justify-content: start;
     width: 100%;            
     gap: 1rem;             
+}
+
+.trip-card-link {
+    text-decoration: none; 
+    color: inherit; 
+    display: block;
 }

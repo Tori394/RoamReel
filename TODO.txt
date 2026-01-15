@@ -1,6 +1,4 @@
-Miniatury to guziki
 Widok reelsa + routing:
-    - podgląd filmu
     - zmiana kraju, daty
     - usuń
 

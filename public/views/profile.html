@@ -71,6 +71,9 @@
 
                                 <div class="trips-grid">
                                     <?php foreach ($monthReels as $reel): ?>
+                                        <!-- <a href="/reel/<?= $reel['id'] ?>" class="trip-card-link"></a> -->
+                                         <a href="/reel" class="trip-card-link">
+
                                         <div class="trip-card">
                                             <img src="<?= htmlspecialchars($reel['thumbnail_name']); ?>" alt="Trip thumbnail">
                                             <div class="trip-info">
@@ -80,6 +83,7 @@
   
                                             </div>
                                         </div>
+                                        </a>
                                     <?php endforeach; ?>
                                 </div>
 
