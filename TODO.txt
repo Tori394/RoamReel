@@ -1,9 +1,9 @@
-Gleria krajów
 Miniatury to guziki
 Widok reelsa + routing:
     - podgląd filmu
     - zmiana kraju, daty
     - usuń
+
 Wymagania formatu hasła
 Naprawa widoków (reel, kreator, profil, mapa)
 Konto administratora

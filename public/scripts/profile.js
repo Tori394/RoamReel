@@ -67,7 +67,7 @@ function showSection(sectionName) {
     const statsBtn = buttons[1];
 
     if (sectionName === 'stats') {
-s
+            
         statsSection.classList.remove('hidden');
         timelineSection.classList.add('hidden');
         

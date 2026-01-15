@@ -40,6 +40,10 @@ class Routing {
         'upload_pfp' => [
             'controller' => 'ProfileController',
             'action' => 'uploadProfilePicture'
+        ],
+        'getCountryReels' => [
+            'controller' => 'MapDashboardController',
+            'action' => 'getCountryReels'
         ]
     ];
 

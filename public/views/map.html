@@ -1119,7 +1119,15 @@
             </circle>
             </svg>
         </div>
-        <div class="side-panel">
+            <div id="countryGallery">
+                <button id="closePanel">×</button>
+                <div id="infoContent">
+                    <h2 id="countryNameTitle"></h2>
+                    <div id="countryReelsContainer"></div>
+                </div>
+            </div>
+    </div>      
+    <div class="side-panel">
             <button type="button" onclick="window.location.href='/profile'">
                 <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -1140,12 +1148,7 @@
                     </svg>
                 </button>
             </form>
-        </div>
     </div>
-    <div id="countryGallery">
-        <button id="closePanel">×</button>
-        <div id="infoContent"></div>
-        </div>
     </div>
 
 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
