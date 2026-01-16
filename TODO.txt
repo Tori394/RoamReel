@@ -1,7 +1,8 @@
-Widok reelsa + routing:
+Edytor reelsa + routing:
     - zmiana kraju, daty
     - usuń
 
+Pierwszy widok - login a nie 404
 Wymagania formatu hasła
 Naprawa widoków (reel, kreator, profil, mapa)
 Konto administratora
@@ -9,24 +10,16 @@ Konto administratora
 *Zmiana koloru kraju w zależnosci od wycieczek
 
 
-DOKUMENTACJA W README.ME
-ARCHITEKTURA APLIKACJI MVC/ FRONT-BACKEND, INNA	
-KOD NAPISANY OBIEKTOWO (CZĘŚĆ BACKENDOWA)	
-DIAGRAM ERD	
-HTML	
+DOKUMENTACJA W README.ME	
+DIAGRAM ERD		
 POSTGRESQL	
 ZŁOŻONOŚĆ BAZY DANYCH	
-EKSPORT BAZY DO PLIKU .SQL	
-PHP	
-JAVA SCRIPT	
+EKSPORT BAZY DO PLIKU .SQL		
 FETCH API (AJAX)	
 DESIGN	
-RESPONSYWNOŚĆ	
-LOGOWANIE	
-SESJA UŻYTKOWNIKA	
+RESPONSYWNOŚĆ		
 UPRAWNIENIA UŻYTKOWNIKÓW	
 ROLE UŻYTKOWNIKÓW - CO NAJMNIEJ DWIE	
-	
 WIDOKI, WYZWALACZE, FUNKCJE, TRANSAKCJE	
 AKCJE NA REFERENCJACH	
 BEZPIECZEŃSTWO	

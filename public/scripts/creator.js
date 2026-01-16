@@ -99,7 +99,7 @@ function handleFiles(files) {
 
 function updateStatusText() {
     if(statusText) {
-        statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/60`;
+        statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/30`;
     }
 }
 
