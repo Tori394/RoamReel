@@ -34,7 +34,7 @@ class ReelsRepository extends Repository {
 
     public function getReelsByUserId(int $userId) {
         $reels = $this->database->connect()->prepare('
-            SELECT thumbnail_name, created_at, country FROM reels WHERE user_id = ?
+            SELECT thumbnail_name, created_at, country, video_name FROM reels WHERE user_id = ?
             ORDER BY created_at DESC
         ');
         $reels->execute([$userId]);

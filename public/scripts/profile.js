@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ZDJĘCIE PROFILOWE 
     const editIcon = document.getElementById('edit-icon');
     const fileInput = document.getElementById('pfp-upload-input');
     const profilePicContainer = document.getElementById('profile-picture');
@@ -29,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (result.status === 'success') {
                     const newPfpUrl = result.url;
-                    
                     let imgElement = profilePicContainer.querySelector('img');
                     
                     if (!imgElement) {
@@ -41,76 +42,36 @@ document.addEventListener('DOMContentLoaded', () => {
                         imgElement.style.borderRadius = '50%'; 
                         profilePicContainer.appendChild(imgElement);
                     }
-
                     imgElement.src = newPfpUrl + '?t=' + new Date().getTime();
-                
                 } else {
                     alert('Błąd: ' + result.message);
                 }
             } catch (error) {
                 console.error(error); 
-                alert('Błąd sieci lub serwer zwrócił HTML zamiast JSON.');
+                alert('Błąd sieci.');
             } finally {
                 if (profilePicContainer) profilePicContainer.style.opacity = '1';
                 fileInput.value = ''; 
             }
         });
     }
-});
 
-function showSection(sectionName) {
-    const statsSection = document.getElementById('stats-section');
-    const timelineSection = document.getElementById('timeline-section');
-    
-    const buttons = document.querySelectorAll('.nav-btn');
-    const timelineBtn = buttons[0];
-    const statsBtn = buttons[1];
-
-    if (sectionName === 'stats') {
-            
-        statsSection.classList.remove('hidden');
-        timelineSection.classList.add('hidden');
-        
-
-        timelineBtn.classList.remove('active');
-        statsBtn.classList.add('active');
-
-    } else {
-
-        statsSection.classList.add('hidden');
-        timelineSection.classList.remove('hidden');
-        
-
-        timelineBtn.classList.add('active');
-        statsBtn.classList.remove('active');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-
+    // NAWIGACJA ZAKŁADKI
     const btnTimeline = document.getElementById('btn-timeline');
     const btnStats = document.getElementById('btn-stats');
-    
     const sectionTimeline = document.getElementById('timeline-section');
     const sectionStats = document.getElementById('stats-section');
 
-
     function switchToTimeline() {
-
         sectionStats.classList.add('hidden');
         sectionTimeline.classList.remove('hidden');
-
-
         btnStats.classList.remove('active');
         btnTimeline.classList.add('active');
     }
 
     function switchToStats() {
-
         sectionTimeline.classList.add('hidden');
         sectionStats.classList.remove('hidden');
-
-
         btnTimeline.classList.remove('active');
         btnStats.classList.add('active');
     }
@@ -118,7 +79,48 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnTimeline && btnStats) {
         btnTimeline.addEventListener('click', switchToTimeline);
         btnStats.addEventListener('click', switchToStats);
-    } else {
-        console.error("Nie znaleziono przycisków nawigacji!");
+    }
+
+    // MODAL WIDEO
+    
+    const modal = document.getElementById("videoModal");
+    const modalVideo = document.getElementById("modalVideoPlayer");
+    const closeModalBtn = document.getElementById("closeModal");
+    const tripCards = document.querySelectorAll('.trip-card'); 
+
+    function openVideoModal(videoSrc) {
+        if (!videoSrc || videoSrc.includes('undefined')) {
+            console.error("Brak ścieżki wideo");
+            return;
+        }
+        
+        modalVideo.src = videoSrc;
+        modal.classList.add("active");
+        modalVideo.play().catch(e => console.log("Autoplay blocked:", e));
+    }
+
+    function closeVideoModal() {
+        modal.classList.remove("active");
+        modalVideo.pause();
+        modalVideo.src = "";
+    }
+
+    tripCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const videoPath = this.getAttribute('data-video-src');
+            openVideoModal(videoPath);
+        });
+    });
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener("click", closeVideoModal);
+    }
+
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                closeVideoModal();
+            }
+        });
     }
 });
