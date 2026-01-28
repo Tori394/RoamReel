@@ -1,6 +1,7 @@
 <?php
 
 require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/AdminController.php';
 require_once 'src/controllers/MapDashboardController.php';
 require_once 'src/controllers/CreatorController.php';
 require_once 'src/controllers/ProfileController.php';
@@ -10,6 +11,11 @@ class Routing {
 
     //sesja uzytkownika
     public static $routing = [
+        '' => [
+            'controller' => 'MapDashboardController',
+            'action' => 'index'
+        ],
+        
         'login' => [
             'controller' => 'SecurityController',
             'action' => 'login'
@@ -61,6 +67,19 @@ class Routing {
         'updateReel' => [
             'controller' => 'ReelController',
             'action' => 'updateReel'
+        ],
+         //Admin
+        'adminPanel' => [
+            'controller' => 'AdminController',
+            'action' => 'adminPanel'
+        ],
+        'deleteUser' => [
+            'controller' => 'AdminController',
+            'action' => 'deleteUser'
+        ],
+        'updateUser' => [
+            'controller' => 'AdminController',
+            'action' => 'updateUser'
         ]
     ];
 

@@ -1,12 +1,7 @@
-Pierwszy widok - login a nie 404
 Wymagania formatu hasła
+Guzik do panelu admina
+Usunąc domLoadery w map i profle js
 
-DOKUMENTACJA W README.ME	
-DIAGRAM ERD		
-POSTGRESQL	
-ZŁOŻONOŚĆ BAZY DANYCH	
+DOKUMENTACJA W README.ME			
 EKSPORT BAZY DO PLIKU .SQL		
-FETCH API (AJAX)	
-UPRAWNIENIA UŻYTKOWNIKÓW	
-AKCJE NA REFERENCJACH	
 BRAK REPLIKACJI KODU !!!!! - na razie jest replikacja w widokach
