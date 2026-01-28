@@ -49,6 +49,18 @@ class Routing {
         'getCountryReels' => [
             'controller' => 'MapDashboardController',
             'action' => 'getCountryReels'
+        ],
+        'editReel' => [
+            'controller' => 'ReelController',
+            'action' => 'editReel'
+        ],
+        'deleteReel' => [
+            'controller' => 'ReelController',
+            'action' => 'deleteReel'
+        ],
+        'updateReel' => [
+            'controller' => 'ReelController',
+            'action' => 'updateReel'
         ]
     ];
 

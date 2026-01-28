@@ -40,7 +40,7 @@ def create_reel(folder_path, output_path):
 
     processed_files = [f for f in results if f is not None]
 
-    fps = 30 / len(processed_files) if processed_files else 0
+    fps = len(processed_files) / 30  # Docelowa długość wideo to 30 sekund
 
     if processed_files:
         print("Rendering video...")
