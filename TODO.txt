@@ -1,11 +1,5 @@
-Edytor reelsa + routing:
-    - zmiana kraju, daty
-    - usuń
-
 Pierwszy widok - login a nie 404
 Wymagania formatu hasła
-Naprawa widoków (reel, kreator, profil, mapa)
-
 
 DOKUMENTACJA W README.ME	
 DIAGRAM ERD		
