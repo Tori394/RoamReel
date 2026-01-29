@@ -1,4 +1,3 @@
-Wymagania formatu hasła
 Guzik do panelu admina
 Usunąc domLoadery w map i profle js
 
