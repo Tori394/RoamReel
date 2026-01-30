@@ -27,6 +27,9 @@ class AdminController extends AppController {
 
         // Sprawdzenie czy user ma rolę 1
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 1) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Forbidden']);
+
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/login");
             exit();
@@ -52,6 +55,7 @@ class AdminController extends AppController {
             $this->adminRepo->deleteUser($_POST['user_id']);
         }
         
+
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/adminPanel");
         exit;

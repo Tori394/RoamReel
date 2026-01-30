@@ -19,6 +19,8 @@ class ReelController extends AppController {
         }
 
         if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
 
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/login");
@@ -34,6 +36,8 @@ class ReelController extends AppController {
         }
 
         if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
 
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/login");
@@ -41,6 +45,7 @@ class ReelController extends AppController {
         }
 
         if (!$id) {
+            http_response_code(400);
             header('Location: /profile');
             exit;
         }
@@ -57,6 +62,8 @@ class ReelController extends AppController {
         $countries = $mapRepo->getCountries(); 
 
         if ($reel['user_id'] !== $_SESSION['user_id']) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Unauthorized']);
             header('Location: /profile');
             exit;
         }
@@ -72,15 +79,22 @@ class ReelController extends AppController {
             session_start();
         }
         if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
             header('Location: /login');
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            http_response_code(405);
             $id = (int)$_POST['id'];
             
             $reelsRepo = ReelsRepository::getInstance();
             $reelsRepo->deleteReel($id);
+            http_response_code(200);
+        }
+        else {
+            http_response_code(400);
         }
         
         header('Location: /profile');
@@ -92,6 +106,8 @@ class ReelController extends AppController {
             session_start();
         }
         if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
             header('Location: /login');
             exit;
         }
@@ -108,7 +124,12 @@ class ReelController extends AppController {
                 $date, 
                 $_SESSION['user_id']
             );
+            http_response_code(200);
         }
+        else {
+            http_response_code(400);
+        }
+        
         header('Location: /profile');
         exit;
     }

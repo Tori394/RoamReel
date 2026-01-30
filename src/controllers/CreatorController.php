@@ -140,7 +140,6 @@ class CreatorController extends AppController {
             ]);
 
         } catch (Exception $e) {
-            // Błąd - czysty JSON + kod HTTP
             ob_clean();
             
             $code = $e->getCode();
