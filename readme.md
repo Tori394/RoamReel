@@ -101,14 +101,26 @@ System rozróżnia uprawnienia na podstawie pola `role` w bazie danych:
 Aplikacja działa na każdym formacie urządzenia, widoki odpowiednio dostosowywują się do wielkości ekranu.
 
 * Widok logoawnia:
-* 
-* Widok rejestracji:
-* Widoki mapy:
-* Widoki profilu:
-* Widok kreatora:
-* Widok edytora:
-* Widok admina
+  <img width="2806" height="864" alt="image" src="https://github.com/user-attachments/assets/f75f6fe6-1f63-468c-b3f6-097940c1b094" />
 
+* Widok rejestracji:
+  <img width="2798" height="858" alt="image" src="https://github.com/user-attachments/assets/e06c4acb-1373-4dba-ba23-f6a9ded043d1" />
+
+* Widoki mapy:
+  <img width="2798" height="873" alt="image" src="https://github.com/user-attachments/assets/973e220d-deee-4c2a-adec-de2f4ca78c92" />
+
+* Widoki profilu:
+  <img width="2798" height="874" alt="image" src="https://github.com/user-attachments/assets/e5d63a27-05d3-4cee-93dd-011bb0faa45b" />
+  <img width="2798" height="874" alt="image" src="https://github.com/user-attachments/assets/9daadc59-7d7a-4ef0-ac98-cf3459fb9108" />
+
+* Widok kreatora:
+ <img width="2798" height="874" alt="image" src="https://github.com/user-attachments/assets/8423af64-064f-4d5d-9f4f-12f7c563fe82" />
+
+* Widok edytora:
+  <img width="2798" height="874" alt="image" src="https://github.com/user-attachments/assets/aa794001-d25b-468a-b4ad-babb3900db9d" />
+
+* Widok admina
+<img width="2798" height="874" alt="image" src="https://github.com/user-attachments/assets/d1727790-b472-4d02-882b-08170fdc3870" />
 
 ---
 
@@ -177,3 +189,4 @@ Interaktywność aplikacji bez konieczności przeładowywania strony została os
 * **Płynność Użytkowania**: Dzięki temu podejściu, kliknięcie w kraj na mapie czy zmiana zdjęcia profilowego odbywa się natychmiastowo, dając wrażenie korzystania z aplikacji typu SPA (Single Page Application), mimo że backend oparty jest na tradycyjnym PHP.
 
 ---
+
