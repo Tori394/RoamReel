@@ -174,9 +174,20 @@ Do interaktywności po stronie klienta, asynchronicznego pobierania danych z ser
 
 
 ### init.sql
-### Relacje i akcje na referencjach
-### Tranzakcje
-### Triggery
+Skrypt inicjalizujący strukturę bazy danych. Tworzy niezbędne tabele, definiuje typy danych oraz tworzy widok statystyk wykorzystywany w Panelu Administratora do generowania wykresów.
+
+### Relacje
+System opiera się na ścisłym modelu relacyjnym, który wymusza spójność danych na poziomie silnika bazy:
+* **Relacja Jeden-do-Wielu (1:N)**: Zaimplementowana między użytkownikami a filmami. Każdy film (Reel) jest ściśle przypisany do jednego twórcy, podczas gdy jeden twórca może posiadać nielimitowaną liczbę filmów.
+
+### Transakcyjność (ACID)
+Dla kluczowych operacji zmieniających stan systemu wykorzystano transakcje, które gwarantują atomowość działań. Jest to kluczowe w procesie generowania Reelsa:
+* Usunięcie i edytowanie zarówno użytkowników jak i reelsów odbywa się w tranzakcjach.
+* W przypadku błędu na dowolnym etapie, baza danych cofa zmiany (Rollback), dzięki czemu nie powstają wpisy wskazujące na nieistniejące pliki.
+
+### Automatyzacja (Triggery i Funkcje)
+W celu odciążenia warstwy aplikacji (PHP), część logiki została przeniesiona bezpośrednio do bazy danych za pomocą wyzwalaczy (triggers):
+* **Automatyczne stemplowanie czasu**: Zaimplementowano funkcję w `PL/pgSQL`, która automatycznie aktualizuje pole `updated_at` przy każdej modyfikacji rekordu użytkownika. Dzięki temu system precyzyjnie śledzi moment ostatniej aktywności lub edycji profilu, bez konieczności ręcznego przesyłania daty przez kod backendu.
 
 ---
 
@@ -187,6 +198,12 @@ Interaktywność aplikacji bez konieczności przeładowywania strony została os
 * **Komunikacja Tło-Serwer**: Skrypty JavaScript (np. `map.js`, `admin.js`) wysyłają asynchroniczne żądania HTTP do endpointów API w PHP (np. `/api/admin/stats`).
 * **Format JSON**: Wymiana danych między klientem a serwerem odbywa się w lekkim formacie JSON. PHP przetwarza logikę i zwraca dane (np. statystyki, listę filmów), a JavaScript dynamicznie aktualizuje drzewo DOM.
 * **Płynność Użytkowania**: Dzięki temu podejściu, kliknięcie w kraj na mapie czy zmiana zdjęcia profilowego odbywa się natychmiastowo, dając wrażenie korzystania z aplikacji typu SPA (Single Page Application), mimo że backend oparty jest na tradycyjnym PHP.
-
+* 
+### Przykłady:
+1.  **`public/scripts/admin.js`**: Pobieranie danych JSON do wykresów Chart.js.
+2.  **`public/scripts/map.js`**: Dynamiczne pobieranie listy filmów po kliknięciu w kontur kraju na mapie SVG.
+3.  **`public/scripts/creator.js`**: Przesyłanie plików zdjęć do serwera i obsługa długotrwałego procesu generowania wideo przez Python.
+4.  **`public/scripts/profile.js`**: Asynchroniczny upload zdjęcia profilowego z natychmiastowym odświeżeniem widoku.
 ---
+
 
