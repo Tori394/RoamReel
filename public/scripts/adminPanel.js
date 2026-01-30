@@ -1,19 +1,17 @@
-    fetch('/stats')
+    fetch('/stats', {
+                method: "GET"
+        })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(data => {
-            console.log("Otrzymane dane:", data); // Do debugowania
 
-            // 2. Aktualizacja liczników (Góra strony)
             document.getElementById('users-count').innerText = data.general.users;
             document.getElementById('reels-count').innerText = data.general.reels;
 
-            // 3. Generowanie tabeli użytkowników
             generateUsersTable(data.users_list);
 
-            // 4. Rysowanie wykresu
             generateChart(data.chart);
         })
         .catch(error => {
