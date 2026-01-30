@@ -37,6 +37,46 @@ CREATE TABLE reels (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE country_stats (
+    id SERIAL PRIMARY KEY,
+    country_name VARCHAR(100) REFERENCES countries(name) ON DELETE CASCADE UNIQUE, 
+    total_reels INTEGER DEFAULT 0,
+    percentage_share DECIMAL(5,2) DEFAULT 0.00,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION update_country_stats_function() 
+RETURNS TRIGGER AS $$
+DECLARE
+    videos_count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO videos_count 
+    FROM reels 
+    WHERE country = NEW.country;
+
+    INSERT INTO country_stats (country_name, total_reels, last_updated)
+    VALUES (NEW.country, videos_count, CURRENT_TIMESTAMP)
+    ON CONFLICT (country_name) 
+    DO UPDATE SET 
+        total_reels = EXCLUDED.total_reels,
+        last_updated = CURRENT_TIMESTAMP;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql; 
+
+CREATE TRIGGER trigger_update_reels_count
+AFTER INSERT ON reels
+FOR EACH ROW
+EXECUTE FUNCTION update_country_stats_function();
+
+CREATE VIEW v_country_percentages AS
+SELECT 
+    cs.country_name,
+    cs.total_reels,
+    ROUND((cs.total_reels::DECIMAL / NULLIF((SELECT COUNT(*) FROM reels), 0)::DECIMAL) * 100, 2) as percentage_share
+FROM country_stats cs;
+
 -- Europa
 INSERT INTO countries (name) VALUES
 ('Albania'), ('Andorra'), ('Austria'), ('Belarus'),
@@ -143,3 +183,12 @@ INSERT INTO countries (name) VALUES
 ('French Polynesia'),
 ('Sint Maarten')
 ON CONFLICT (name) DO NOTHING;
+
+
+INSERT INTO reels (user_id, country, video_name, thumbnail_name) VALUES
+(1, 'Poland', 'media/testuser/reel_1768566523.mp4', 'media/testuser/thumb_reel_1768566523.jpg'),
+(1, 'Germany', 'media/testuser/reel_1768568680.mp4', 'media/testuser/thumb_reel_1768568680.jpg'),
+(1, 'France', 'media/testuser/reel_1768568757.mp4', 'media/testuser/thumb_reel_1768568757.jpg'),
+(1, 'France', 'media/testuser/reel_1769636090.mp4', 'media/testuser/thumb_reel_1769636090.jpg'),
+(1, 'France', 'media/testuser/reel_1769726981.mp4', 'media/testuser/thumb_reel_1769726981.jpg');
+

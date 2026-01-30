@@ -1,5 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
     // ZDJĘCIE PROFILOWE 
     const editIcon = document.getElementById('edit-icon');
     const fileInput = document.getElementById('pfp-upload-input');
@@ -123,4 +121,3 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});

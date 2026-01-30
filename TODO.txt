@@ -1,6 +1,0 @@
-Guzik do panelu admina
-Usunąc domLoadery w map i profle js
-
-DOKUMENTACJA W README.ME			
-EKSPORT BAZY DO PLIKU .SQL		
-BRAK REPLIKACJI KODU !!!!! - na razie jest replikacja w widokach

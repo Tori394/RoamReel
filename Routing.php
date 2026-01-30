@@ -80,6 +80,10 @@ class Routing {
         'updateUser' => [
             'controller' => 'AdminController',
             'action' => 'updateUser'
+        ],
+        'stats' => [
+            'controller' => 'AdminController',
+            'action' => 'statsApi'
         ]
     ];
 

@@ -1,4 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
     const panZoom = svgPanZoom('#allSvg', {
         zoomEnabled: true,
         panEnabled: true,
@@ -125,4 +124,3 @@ const countries = document.querySelectorAll("#allSvg .allPaths");
             panel.classList.remove("active");
         });
     }
-});

@@ -73,4 +73,22 @@ class AdminController extends AppController {
         header("Location: {$url}/adminPanel");
         exit;
     }
+
+    public function statsApi() {
+        $this->checkAuth();
+
+        $generalStats = $this->adminRepo->getStats();
+        
+        $countryStats = $this->adminRepo->getCountryStats();
+        
+        $usersList = $this->adminRepo->getAllUsers(); 
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'general' => $generalStats,
+            'chart' => $countryStats,
+            'users_list' => $usersList
+        ]);
+        exit();
+    }
 }

@@ -13,12 +13,15 @@ def process_single_image(img_path):
     """
     try:
         with Image.open(img_path) as img:
+            if img.size == TARGET_SIZE and img.mode == 'RGB':
+                return img_path
+
             if img.mode != 'RGB':
                 img = img.convert('RGB')
 
-            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BICUBIC, color='black')
+            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BILINEAR, color='black')
             
-            img_resized.save(img_path, quality=90)
+            img_resized.save(img_path, quality=80)
             return img_path
     except Exception as e:
         print(f"Warning: Skipping bad image {img_path}: {e}")
@@ -52,7 +55,7 @@ def create_reel(folder_path, output_path):
             audio=False, 
             fps=24, 
             preset='ultrafast',
-            threads=4
+            threads=0
         )
     else:
         print("Error: Could not process any images")
@@ -63,13 +66,13 @@ def create_thumbnail(thumbnail_path):
             if img.mode != 'RGB':
                 img = img.convert('RGB')
 
-            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BICUBIC, color='black')
+            img_resized = ImageOps.pad(img, TARGET_SIZE, method=Image.Resampling.BILINEAR, color='black')
             img_resized.save(thumbnail_path, quality=90)
     except Exception as e:
         print(f"Error creating thumbnail: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         print("Usage: python video_maker.py <input_folder> <output_file>")
     else:
         path_to_images = sys.argv[1]
